@@ -3,7 +3,7 @@ def convertToSelf(value):
   return value
 
 def convertCelsiusToKelvin(celsius):
-  return celsius + 273.15, 2
+  return celsius + 273.15
 
 def convertCelsiusToFahrenheit(celsius):
   return celsius * 9 / 5 + 32
@@ -40,7 +40,7 @@ def convertYardToMeter(yard):
 def convertYardToMile(yard):
   return yard / 1760
 
-# Error class
+# Exception class
 class ConversionNotPossible(ValueError):
     pass
 
@@ -87,10 +87,12 @@ def convert(fromUnit, toUnit, value):
   """
   if not (type(fromUnit) == str and type(toUnit) == str and (type(value) == int or type(value) ==float)): 
     raise ConversionNotPossible('Invalid input. fromUnit and toUnit should be strings, value should be number')
+  
+  # convert the units strings to lower case
+  fromUnit = fromUnit.lower()
+  toUnit = toUnit.lower()
   if not ((fromUnit in conversion) and (toUnit in conversion[fromUnit])):
-    raise ConversionNotPossible('Invalid units. Please input the following units: celsius, fahrenheit, kelvin only for Temperature conversion. Mile, meter, yard only for Distance conversion.')
+    raise ConversionNotPossible('Incompatible units. Please input the following units: celsius, fahrenheit, kelvin only for Temperature conversion. Mile, meter, yard only for Distance conversion.')
   else:
-    fromUnit = fromUnit.lower()
-    toUnit = toUnit.lower()
     result = round(conversion[fromUnit][toUnit](value), 2)
-    print(result)
+    return result
